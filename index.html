@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" class="dark transition-colors duration-300 ease-linear">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind Task Manager</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body
+    class="bg-gradient-to-br from-purple-200 to-indigo-300 dark:from-gray-800 dark:to-gray-900 min-h-screen font-sans">
+    <div class="max-w-2xl mx-auto p-6">
+        <header class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-100">🌟 Task Manager</h1>
+            <button id="darkModeToggle" class="text-2xl transition transform hover:rotate-45">🌙</button>
+        </header>
+
+        <form id="taskForm" class="flex gap-2 mb-4">
+            <input type="text" id="taskInput" placeholder="What's next?"
+                class="flex-1 px-4 py-2 rounded-lg shadow-inner focus:outline-none">
+            <button
+                class="px-4 py-2 bg-purple-600 text-white rounded-lg shadow-lg hover:bg-purple-700 transition">Add</button>
+        </form>
+
+        <div class="flex gap-2 justify-center mb-4">
+            <button
+                class="filter-btn px-3 py-1 rounded-lg bg-gray-200 dark:bg-gray-700 dark:text-gray-100 transition active"
+                data-filter="all">All</button>
+            <button class="filter-btn px-3 py-1 rounded-lg bg-gray-200 dark:bg-gray-700 dark:text-gray-100 transition"
+                data-filter="pending">Pending</button>
+            <button class="filter-btn px-3 py-1 rounded-lg bg-gray-200 dark:bg-gray-700 dark:text-gray-100 transition"
+                data-filter="completed">Completed</button>
+        </div>
+
+        <div class="w-full h-2 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden mb-4">
+            <div id="progressBar" class="h-full bg-purple-600 transition-all" style="width:0;"></div>
+        </div>
+
+        <ul id="taskList" class="space-y-3"></ul>
+
+        <footer class="mt-10 text-center text-gray-600 dark:text-gray-400">
+            ✨ Crafted with Tailwind CSS ✨
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
