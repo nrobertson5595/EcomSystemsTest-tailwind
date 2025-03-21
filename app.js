@@ -1,21 +1,28 @@
-// Dark mode toggling
+// Dark Mode Toggle
 const darkModeToggle = document.getElementById('darkModeToggle');
+const rootElement = document.documentElement;
 
 darkModeToggle.addEventListener('click', () => {
-    document.documentElement.classList.toggle('dark');
+    rootElement.classList.toggle('dark');
+    localStorage.setItem('theme', rootElement.classList.contains('dark') ? 'dark' : 'light');
 });
 
+// Initialize theme from localStorage
+if (localStorage.getItem('theme') === 'dark') {
+    rootElement.classList.add('dark');
+} else {
+    rootElement.classList.remove('dark');
+}
 
-
-// Task logic
+// Task Logic
 const taskForm = document.getElementById('taskForm');
 const taskInput = document.getElementById('taskInput');
 const taskList = document.getElementById('taskList');
 const progressBar = document.getElementById('progressBar');
 const filterButtons = document.querySelectorAll('.filter-btn');
+
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-// Render tasks
 function renderTasks(filter = 'all') {
     taskList.innerHTML = '';
     const filteredTasks = tasks.filter(task => {
@@ -26,14 +33,14 @@ function renderTasks(filter = 'all') {
 
     filteredTasks.forEach((task, index) => {
         const li = document.createElement('li');
-        li.className = `flex justify-between items-center p-3 rounded-lg shadow bg-white dark:bg-gray-800 transition transform hover:scale-105 ${task.completed ? 'opacity-50 line-through' : ''}`;
+        li.className = `task-item flex items-center justify-between p-2 bg-white dark:bg-gray-800 rounded shadow ${task.completed ? 'opacity-50 line-through' : ''}`;
         li.innerHTML = `
-      <span>
-        <input type="checkbox" data-index="${index}" ${task.completed ? 'checked' : ''} class="mr-2 cursor-pointer">
-        ${task.title}
-      </span>
-      <button data-index="${index}" class="delete-btn text-red-500 hover:text-red-700 transition">&times;</button>
-    `;
+        <div>
+          <input type="checkbox" data-index="${index}" class="mr-2" ${task.completed ? 'checked' : ''}>
+          ${task.title}
+        </div>
+        <button data-index="${index}" class="delete-btn text-red-500">&times;</button>
+      `;
         taskList.appendChild(li);
     });
 
@@ -41,7 +48,8 @@ function renderTasks(filter = 'all') {
     saveTasks();
 }
 
-// Add tasks
+
+
 taskForm.onsubmit = e => {
     e.preventDefault();
     if (!taskInput.value.trim()) return;
@@ -50,29 +58,25 @@ taskForm.onsubmit = e => {
     renderTasks();
 };
 
-// Delete and toggle completion
 taskList.onclick = e => {
     if (e.target.classList.contains('delete-btn')) {
         tasks.splice(e.target.dataset.index, 1);
     } else if (e.target.type === 'checkbox') {
-        const index = e.target.dataset.index;
-        tasks[index].completed = e.target.checked;
+        tasks[e.target.dataset.index].completed = e.target.checked;
     }
     renderTasks();
 };
 
-// Update and save tasks
 function saveTasks() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 function updateProgress() {
-    const completedCount = tasks.filter(task => task.completed).length;
-    const percent = tasks.length ? (completedCount / tasks.length) * 100 : 0;
+    const completed = tasks.filter(t => t.completed).length;
+    const percent = tasks.length ? (completed / tasks.length) * 100 : 0;
     progressBar.style.width = `${percent}%`;
 }
 
-// Task filtering
 filterButtons.forEach(btn => {
     btn.onclick = () => {
         document.querySelector('.filter-btn.active').classList.remove('active', 'bg-purple-600', 'text-white');
@@ -81,5 +85,5 @@ filterButtons.forEach(btn => {
     };
 });
 
-// Initialize
+// Initial rendering
 renderTasks();

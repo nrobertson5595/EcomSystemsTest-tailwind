@@ -2,20 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-    :root {
-        color-scheme: light;
-    }
+body {
+    font-family: 'Montserrat Alternates', sans-serif;
+    /* Exotic global font */
+}
 
-    html {
-        @apply bg-orange-100;
-        /* Light orange background for light mode */
-    }
+/* Task list items with cursive font */
+.task-item {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
+    /* Slightly larger for readability */
+}
 
-    html.dark {
-        @apply bg-gradient-to-br from-gray-800 to-gray-900;
-        /* Dark mode gradient */
-    }
+/* Task list text color in dark mode */
+.dark .task-item {
+    color: #FFB066;
+    /* Light orange color */
 }
 
 /* Optional scrollbar styling */
