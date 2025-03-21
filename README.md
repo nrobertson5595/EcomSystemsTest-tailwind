@@ -2,8 +2,6 @@
 
 A simple and elegant task management web application built with Tailwind CSS, featuring dark mode, task filtering, and progress tracking.
 
-![Task Manager Preview](./preview.png)
-
 ## Features
 
 - 🌓 Dark/Light mode toggle
